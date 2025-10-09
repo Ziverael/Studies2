@@ -1,0 +1,10 @@
+**/__pycache__
+**/*.py[cod]
+.git/
+.venv/
+.jupyter_cache/
+.ruff_cache/
+.mypy_cache/
+
+data/
+.env

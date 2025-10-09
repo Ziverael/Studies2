@@ -1,0 +1,11 @@
+services:
+  aoud-mongodb:
+    container_name: aoud-mongodb
+    image: mongo:8.0-noble
+    volumes:
+      - aoudb:/data/db
+    ports:
+      - 127.0.0.1:8253:27017
+    restart: always 
+volumes:
+  aoudb:

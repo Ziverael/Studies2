@@ -1,0 +1,6 @@
+default:
+    just --list
+
+[group('lint')]
+mongo:
+    docker compose up aoud-mongodb -d && docker exec -it aoud-mongodb mongosh
