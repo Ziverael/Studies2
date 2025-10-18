@@ -1,5 +1,5 @@
 [project]
-name="studies"
+name="studies2"
 requires-python = ">= 3.12"
 version="0.1"
 dependencies = [
@@ -17,7 +17,9 @@ dependencies = [
     "polars==1.33.1",
     "pydantic==2.11.9",
     "pydantic-settings>=2.11.0",
+    "pyvis>=0.3.2",
     "ruff==0.13.2",
+    "scipy>=1.16.2",
     "seaborn>=0.13.2",
     "sqlalchemy>=2.0.43",
     "tqdm==4.67.1",

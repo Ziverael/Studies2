@@ -1,5 +1,5 @@
 from typing import Any
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, field_validator, Field
 from datetime import datetime
 from email.utils import parsedate_to_datetime
 from utils import TZ_WARSAW
@@ -20,8 +20,12 @@ class SelectResponse(Response):
 
 class EmailMessageModel(BaseModel):
     subject: str
-    sender: str | None = None
-    to: str | None = None
+    sender: list[str] | None = None
+    to: list[str] | None = None
+    #"Secondary recipients (Carbon Copy)
+    cc : list[str] | None = None
+    # Hidden secondary recipients (Blind Carbon Copy)
+    bcc : list[str] | None = None
     date: datetime | None = None
     body: str | None = None
     
