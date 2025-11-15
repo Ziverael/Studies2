@@ -1,6 +1,6 @@
 import email
 import imaplib
-from emails.model import Response, EmailMessageModel, FetchResponse, SelectResponse
+from emails.model import Response, EmailMessageModel, FetchResponse, SelectResponse, Attachment
 from typing import Any
 from zoneinfo import ZoneInfo
 from email.utils import parsedate_to_datetime, getaddresses
@@ -33,6 +33,16 @@ def extract_body(msg):
         return msg.get_payload(decode=True).decode(charset, errors="ignore")
     return ""
 
+def extract_attachments(msg: email.message.Message) -> list[Attachment]:
+    attachments = []
+    for part in msg.walk():
+        content_disposition = str(part.get("Content-Disposition", "")).lower()
+        if "attachment" in content_disposition or part.get_filename():
+            filename = decode_mime_header(part.get_filename())
+            if filename:
+                content = part.get_payload(decode=True)
+                attachments.append(Attachment(filename=filename, content=content))
+    return attachments
 
 
 class GmailIMAP:
@@ -58,13 +68,15 @@ class GmailIMAP:
                 to = decode_mime_header(msg.get("to"))
                 date = decode_mime_header(msg.get("date"))
                 body = extract_body(msg)
+                attachments = extract_attachments(msg)
 
                 parsed = EmailMessageModel(
                     subject=subject,
                     sender=sender,
                     to=to,
                     date=date,
-                    body=body
+                    body=body,
+                    attachments=attachments,
                 )
                 return FetchResponse(status=status, raw=data, message=parsed)
 
@@ -86,6 +98,7 @@ class GmailIMAP:
                 to = decode_mime_header(msg.get("to"))
                 date = decode_mime_header(msg.get("date"))
                 body = extract_body(msg)
+                attachments = extract_attachments(msg)
 
                 parsed = EmailMessageModel(
                     subject=subject,
@@ -94,7 +107,8 @@ class GmailIMAP:
                     cc=addressess["cc"],
                     bcc=addressess["bcc"],
                     date=date,
-                    body=body
+                    body=body,
+                    attachments=attachments,
                 )
 
                 messages.append(FetchResponse(status=status, raw=data, message=parsed))
