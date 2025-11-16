@@ -2,6 +2,16 @@ import pickle
 from functools import wraps
 from pathlib import Path
 from zoneinfo import ZoneInfo
+from pydantic import BaseModel
+
+class Paths(BaseModel):
+    project: Path = Path(".")
+    pickles: Path = project / "pickle"
+    htmls: Path = project / "html"
+    suplements: Path = project / "suplement"
+    pl_corpus: Path = project / "plwiki3"
+
+PATHS = Paths()
 
 TZ_WARSAW = ZoneInfo("Europe/Warsaw")
 
