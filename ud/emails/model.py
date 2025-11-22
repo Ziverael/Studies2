@@ -17,6 +17,9 @@ class Response(BaseModel):
 class SelectResponse(Response):
     message_count: int
 
+class Attachment(BaseModel):
+    filename: str
+    content: bytes
 
 class EmailMessageModel(BaseModel):
     subject: str
@@ -28,6 +31,7 @@ class EmailMessageModel(BaseModel):
     bcc : list[str] | None = None
     date: datetime | None = None
     body: str | None = None
+    attachments: list[Attachment]
     
     @field_validator('date', mode='before')
     def parse_email_date(cls, value):
