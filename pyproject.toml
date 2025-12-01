@@ -19,6 +19,7 @@ dependencies = [
     "numpy==2.3.3",
     "pandas==2.3.2",
     "pl-core-news-md",
+    "plotly>=6.5.0",
     "polars==1.33.1",
     "pydantic==2.11.9",
     "pydantic-settings>=2.11.0",
